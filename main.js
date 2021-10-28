@@ -27,8 +27,6 @@ class GuaImage {
         img.src = 'b.png'
     }
     drawNameImage() {
-        this.unknown = false
-
         let ctx = this.ctx
         let x = this.x
         let y = this.y
@@ -42,14 +40,31 @@ class GuaImage {
     addAroundGuaImage(image) {
         this.aroundGuaImage.push(image)
     }
-    update(x, y) {
-        if (this.unknown && (x > this.x) && (x < this.x + this.w) && (y > this.y) && (y < this.y + this.h)) {
-            this.drawNameImage()
+    recurs() {
+        if (!this.unknown) {
+            return
+        }
 
-            for (let i = 0; i < this.aroundGuaImage.length; i++) {
-                let o = this.aroundGuaImage[i]
-                o.drawNameImage()
+        this.unknown = false
+
+        for (let i = 0; i < this.aroundGuaImage.length; i++) {
+            let o = this.aroundGuaImage[i]
+            o.recurs()
+        }
+    }
+    update(x, y) {
+        if ((x > this.x) && (x < this.x + this.w) && (y > this.y) && (y < this.y + this.h)) {
+            if (this.point === 9) {
+                this.drawNameImage()
+                return true
             }
+            this.recurs()
+            return false
+        }
+    }
+    draw() {
+        if (!this.unknown) {
+            this.drawNameImage()
         }
     }
 }
@@ -89,7 +104,7 @@ let __main = function() {
             let aroundImage = images[(cx) + (cy - 1) * objectWidth]
             image.addAroundGuaImage(aroundImage)
         }
-        if (cx + 1 >= 0 && cy - 1 >= 0) {
+        if (cx + 1 <= 8 && cy - 1 >= 0) {
             let aroundImage = images[(cx + 1) + (cy - 1) * objectWidth]
             image.addAroundGuaImage(aroundImage)
         }
@@ -97,28 +112,38 @@ let __main = function() {
             let aroundImage = images[(cx - 1) + (cy) * objectWidth]
             image.addAroundGuaImage(aroundImage)
         }
-        if (cx + 1 >= 0 && cy >= 0) {
+        if (cx + 1 <= 8 && cy >= 0) {
             let aroundImage = images[(cx + 1) + (cy) * objectWidth]
             image.addAroundGuaImage(aroundImage)
         }
-        if (cx - 1 >= 0 && cy + 1 >= 0) {
+        if (cx - 1 >= 0 && cy + 1 <= 8) {
             let aroundImage = images[(cx - 1) + (cy + 1) * objectWidth]
             image.addAroundGuaImage(aroundImage)
         }
-        if (cx >= 0 && cy + 1 >= 0) {
+        if (cx >= 0 && cy + 1 <= 8) {
             let aroundImage = images[(cx) + (cy + 1) * objectWidth]
             image.addAroundGuaImage(aroundImage)
         }
-        if (cx + 1 >= 0 && cy + 1 >= 0) {
+        if (cx + 1 <= 8 && cy + 1 <= 8) {
             let aroundImage = images[(cx + 1) + (cy + 1) * objectWidth]
             image.addAroundGuaImage(aroundImage)
         }
     }
 
+    for (let i = 0; i < images.length; i++) {
+        log(images[i])
+    }
+
     canvas.addEventListener('mousedown', function(event) {
         for (let i = 0; i < images.length; i++) {
             let image = images[i]
-            image.update(event.offsetX, event.offsetY)
+            if (image.update(event.offsetX, event.offsetY)) {
+                log('game over')
+            }
+        }
+        for (let i = 0; i < images.length; i++) {
+            let image = images[i]
+            image.draw()
         }
     })
 }
