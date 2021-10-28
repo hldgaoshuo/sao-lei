@@ -8,13 +8,20 @@ class GuaImage {
         this.h = h
         this.ctx = ctx
         this.unknown = true
+        this.marked = false
         this.aroundGuaImage = []
 
         this.drawInitImage()
     }
+
     static new(point, name, x, y, w, h, ctx) {
         return new this(point, name, x, y, w, h, ctx)
     }
+
+    addAroundGuaImage(image) {
+        this.aroundGuaImage.push(image)
+    }
+
     drawInitImage() {
         let ctx = this.ctx
         let x = this.x
@@ -24,8 +31,9 @@ class GuaImage {
         img.onload = function () {
             ctx.drawImage(img, x, y)
         }
-        img.src = 'b.png'
+        img.src = 'init.png'
     }
+
     drawNameImage() {
         let ctx = this.ctx
         let x = this.x
@@ -37,34 +45,58 @@ class GuaImage {
         }
         img.src = this.name
     }
-    addAroundGuaImage(image) {
-        this.aroundGuaImage.push(image)
+
+    drawMarkImage() {
+        let ctx = this.ctx
+        let x = this.x
+        let y = this.y
+
+        const img = new Image(this.w, this.h)
+        img.onload = function () {
+            ctx.drawImage(img, x, y)
+        }
+        img.src = 'mark.png'
     }
-    recurs() {
+
+    draw(n) {
+        if (n === 0) {
+            return this.drawLeft()
+        } else if (n === 1) {
+            return this.drawRight()
+        }
+    }
+
+    drawLeft() {
         if (!this.unknown) {
-            return
+            return false
+        }
+
+        this.drawNameImage()
+
+        if (this.point !== 0) {
+            if (this.point === 9) {
+                log('game over')
+                return true
+            } else {
+                return false
+            }
         }
 
         this.unknown = false
 
         for (let i = 0; i < this.aroundGuaImage.length; i++) {
             let o = this.aroundGuaImage[i]
-            o.recurs()
+            o.drawLeft()
         }
     }
-    update(x, y) {
-        if ((x > this.x) && (x < this.x + this.w) && (y > this.y) && (y < this.y + this.h)) {
-            if (this.point === 9) {
-                this.drawNameImage()
-                return true
-            }
-            this.recurs()
-            return false
-        }
-    }
-    draw() {
-        if (!this.unknown) {
-            this.drawNameImage()
+
+    drawRight() {
+        this.marked = !this.marked
+
+        if (this.marked) {
+            this.drawMarkImage()
+        } else {
+            this.drawInitImage()
         }
     }
 }
@@ -130,20 +162,28 @@ let __main = function() {
         }
     }
 
-    for (let i = 0; i < images.length; i++) {
-        log(images[i])
-    }
-
     canvas.addEventListener('mousedown', function(event) {
+        let target = null
         for (let i = 0; i < images.length; i++) {
+            let x = event.offsetX
+            let y = event.offsetY
             let image = images[i]
-            if (image.update(event.offsetX, event.offsetY)) {
-                log('game over')
+            let ix = image.x
+            let iy = image.y
+            let iw = image.w
+            let ih = image.h
+            if ((x > ix) && (x < ix + iw) && (y > iy) && (y < iy + ih)) {
+                target = image
+                break
             }
         }
-        for (let i = 0; i < images.length; i++) {
-            let image = images[i]
-            image.draw()
+
+        if (target === null) {
+            return
+        }
+
+        if (target.draw(event.button)) {
+            this.removeEventListener('mousedown', arguments.callee, false)
         }
     })
 }
