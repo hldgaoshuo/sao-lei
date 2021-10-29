@@ -1,7 +1,6 @@
 class GuaImage {
-    constructor(point, name, x, y, w, h, ctx, contrastCtx) {
-        this.point = point
-        this.name = name
+    constructor(x, y, w, h, ctx, contrastCtx) {
+        this.point = 0
         this.x = x
         this.y = y
         this.w = w
@@ -13,15 +12,19 @@ class GuaImage {
         this.aroundGuaImage = []
 
         this.drawInitImage()
-        this.drawContrastCtx()
     }
 
-    static new(point, name, x, y, w, h, ctx, contrastCtx) {
-        return new this(point, name, x, y, w, h, ctx, contrastCtx)
+    static new(x, y, w, h, ctx, contrastCtx) {
+        return new this(x, y, w, h, ctx, contrastCtx)
     }
 
     addAroundGuaImage(image) {
         this.aroundGuaImage.push(image)
+    }
+
+    setPoint(point) {
+        this.point = point
+        this.drawContrastCtx()
     }
 
     drawContrastCtx() {
@@ -33,7 +36,7 @@ class GuaImage {
         img.onload = function () {
             ctx.drawImage(img, x, y)
         }
-        img.src = './pic/'+this.name
+        img.src = './pic/'+this.point+'.png'
     }
 
     drawInitImage() {
@@ -57,7 +60,7 @@ class GuaImage {
         img.onload = function () {
             ctx.drawImage(img, x, y)
         }
-        img.src = './pic/'+this.name
+        img.src = './pic/'+this.point+'.png'
     }
 
     drawMarkImage() {
