@@ -1,6 +1,9 @@
 let __main = function() {
-    const canvas = document.getElementById("id-canvas")
+    const canvas = document.getElementById("id-canvas-1")
     const ctx = canvas.getContext("2d")
+
+    const contrast = document.getElementById("id-canvas-2")
+    const contrastCtx = contrast.getContext("2d")
 
     // 初始化地图
     let gameMap = []
@@ -69,8 +72,6 @@ let __main = function() {
             gameMap[i] = count
         }
     }
-    log(gameMap)
-
 
     // 记录所有 GuaImage 对象
     const images = []
@@ -85,7 +86,7 @@ let __main = function() {
         let x = mod(i, objectWidth) * (w + imageGap)
         let y = div(i, objectWidth) * (h + imageGap)
 
-        images.push(GuaImage.new(point, name, x, y, w, h, ctx))
+        images.push(GuaImage.new(point, name, x, y, w, h, ctx, contrastCtx))
     }
 
     // 为所有 GuaImage 对象添加周围对象
@@ -148,18 +149,19 @@ let __main = function() {
         }
 
         if (target.draw(event.button)) {
+            log('game over')
             this.removeEventListener('mousedown', arguments.callee, false)
         }
 
         let landmineCount = 0
         for (let i = 0; i < images.length; i++) {
             let image = images[i]
-            if (image.dismiss) {
+            if (image.unknown) {
                 landmineCount += 1
             }
         }
         if (landmineCount === landmineNumber) {
-            log('win')
+            log('game win')
             this.removeEventListener('mousedown', arguments.callee, false)
         }
     })

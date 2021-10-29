@@ -1,5 +1,5 @@
 class GuaImage {
-    constructor(point, name, x, y, w, h, ctx) {
+    constructor(point, name, x, y, w, h, ctx, contrastCtx) {
         this.point = point
         this.name = name
         this.x = x
@@ -7,20 +7,33 @@ class GuaImage {
         this.w = w
         this.h = h
         this.ctx = ctx
+        this.contrastCtx = contrastCtx
         this.unknown = true
         this.marked = false
-        this.dismiss = false
         this.aroundGuaImage = []
 
         this.drawInitImage()
+        this.drawContrastCtx()
     }
 
-    static new(point, name, x, y, w, h, ctx) {
-        return new this(point, name, x, y, w, h, ctx)
+    static new(point, name, x, y, w, h, ctx, contrastCtx) {
+        return new this(point, name, x, y, w, h, ctx, contrastCtx)
     }
 
     addAroundGuaImage(image) {
         this.aroundGuaImage.push(image)
+    }
+
+    drawContrastCtx() {
+        let ctx = this.contrastCtx
+        let x = this.x
+        let y = this.y
+
+        const img = new Image(this.w, this.h)
+        img.onload = function () {
+            ctx.drawImage(img, x, y)
+        }
+        img.src = './pic/'+this.name
     }
 
     drawInitImage() {
@@ -73,17 +86,11 @@ class GuaImage {
         }
 
         this.drawNameImage()
+        this.unknown = false
 
         if (this.point !== 0) {
-            if (this.point === 9) {
-                log('game over')
-                return true
-            } else {
-                return false
-            }
+            return this.point === 9;
         }
-
-        this.unknown = false
 
         for (let i = 0; i < this.aroundGuaImage.length; i++) {
             let o = this.aroundGuaImage[i]
@@ -99,7 +106,5 @@ class GuaImage {
         } else {
             this.drawInitImage()
         }
-
-        this.dismiss = this.point === 9 && this.marked;
     }
 }
