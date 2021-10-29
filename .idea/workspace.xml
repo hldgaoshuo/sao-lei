@@ -4,28 +4,41 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="e962a342-6202-46dd-a3b6-4d1f079b3d6c" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/-1.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/3.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/4.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/5.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/6.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/7.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/8.png" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/9.png" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/b.png" beforeDir="false" />
+    <list default="true" id="facadf7b-1ca7-4a0c-92cb-145dccd72c00" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/gua_image.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/0.png" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/1.png" beforeDir="false" afterPath="$PROJECT_DIR$/pic/1.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/2.png" beforeDir="false" afterPath="$PROJECT_DIR$/pic/2.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/9.png" beforeDir="false" afterPath="$PROJECT_DIR$/pic/9.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/a.png" beforeDir="false" afterPath="$PROJECT_DIR$/pic/0.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/config.js" beforeDir="false" afterPath="$PROJECT_DIR$/config.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/init.png" beforeDir="false" afterPath="$PROJECT_DIR$/pic/init.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/main.html" beforeDir="false" afterPath="$PROJECT_DIR$/main.html" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/main.js" beforeDir="false" afterPath="$PROJECT_DIR$/main.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/mark.png" beforeDir="false" afterPath="$PROJECT_DIR$/pic/mark.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/utils.js" beforeDir="false" afterPath="$PROJECT_DIR$/utils.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/扫雷.js" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
   </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="JavaScript File" />
+      </list>
+    </option>
+  </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="ProjectId" id="208Uo4azp8otzE7mEnHjbUzYuwS" />
+  <component name="ProjectLevelVcsManager">
+    <ConfirmationsSetting value="2" id="Add" />
+  </component>
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
@@ -40,6 +53,11 @@
     <property name="node.js.selected.package.eslint" value="(autodetect)" />
     <property name="node.js.selected.package.tslint" value="(autodetect)" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="D:\guaProject\sao-lei\pic" />
+    </key>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="application-level" UseSingleDictionary="true" transferred="true" />
   <component name="TaskManager">
@@ -66,5 +84,6 @@
         </entry>
       </map>
     </option>
+    <option name="oldMeFiltersMigrated" value="true" />
   </component>
 </project>
