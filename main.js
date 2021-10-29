@@ -1,3 +1,55 @@
+let __init = function (images, event) {
+    // 在这里初始化地图
+    let gameMap = []
+    for (let i = 0; i < images.length; i++) {
+        gameMap.push(0)
+    }
+
+    let targetIndex = imageIndex(event.offsetX, event.offsetY, images)
+
+    let count = 0
+    while (true) {
+        let i = randomIndex()
+
+        if (protectIndices(targetIndex, i)) {
+            continue
+        }
+
+        if (gameMap[i] === 9) {
+            continue
+        }
+
+        gameMap[i] = 9
+        count++
+
+        if (count === landmineNumber) {
+            break
+        }
+    }
+
+    for (let i = 0; i < gameMap.length; i++) {
+        if (gameMap[i] === 9) {
+            continue
+        }
+
+        let count = 0
+        let as = aroundCoordinates(i)
+        for (let i = 0; i < as.length; i++) {
+            let a = as[i]
+            if (gameMap[a[0] + a[1] * objectWidth] === 9) {
+                count++
+            }
+        }
+        gameMap[i] = count
+    }
+
+    for (let i = 0; i < gameMap.length; i++) {
+        let image = images[i]
+        let point = gameMap[i]
+        image.setPoint(point)
+    }
+}
+
 let __main = function() {
     const canvas = document.getElementById("id-canvas-1")
     const ctx = canvas.getContext("2d")
@@ -20,144 +72,20 @@ let __main = function() {
     }
 
     // 为所有 GuaImage 对象添加周围对象
-    for (let i = 0; i < objectWidth * objectHeight; i++) {
+    for (let i = 0; i < images.length; i++) {
         let image = images[i]
-        let cx = mod(i, objectWidth)
-        let cy = div(i, objectWidth)
-        if (cx - 1 >= 0 && cy - 1 >= 0) {
-            let aroundImage = images[(cx - 1) + (cy - 1) * objectWidth]
-            image.addAroundGuaImage(aroundImage)
-        }
-        if (cx >= 0 && cy - 1 >= 0) {
-            let aroundImage = images[(cx) + (cy - 1) * objectWidth]
-            image.addAroundGuaImage(aroundImage)
-        }
-        if (cx + 1 <= 8 && cy - 1 >= 0) {
-            let aroundImage = images[(cx + 1) + (cy - 1) * objectWidth]
-            image.addAroundGuaImage(aroundImage)
-        }
-        if (cx - 1 >= 0 && cy >= 0) {
-            let aroundImage = images[(cx - 1) + (cy) * objectWidth]
-            image.addAroundGuaImage(aroundImage)
-        }
-        if (cx + 1 <= 8 && cy >= 0) {
-            let aroundImage = images[(cx + 1) + (cy) * objectWidth]
-            image.addAroundGuaImage(aroundImage)
-        }
-        if (cx - 1 >= 0 && cy + 1 <= 8) {
-            let aroundImage = images[(cx - 1) + (cy + 1) * objectWidth]
-            image.addAroundGuaImage(aroundImage)
-        }
-        if (cx >= 0 && cy + 1 <= 8) {
-            let aroundImage = images[(cx) + (cy + 1) * objectWidth]
-            image.addAroundGuaImage(aroundImage)
-        }
-        if (cx + 1 <= 8 && cy + 1 <= 8) {
-            let aroundImage = images[(cx + 1) + (cy + 1) * objectWidth]
-            image.addAroundGuaImage(aroundImage)
+
+        let as = aroundCoordinates(i)
+        for (let i = 0; i < as.length; i++) {
+            let a = as[i]
+            image.addAroundGuaImage(images[a[0] + a[1] * objectWidth])
         }
     }
 
     let init = true
     canvas.addEventListener('mousedown', function(event) {
         if (init) {
-            // 在这里初始化地图
-            let gameMap = []
-            for (let i = 0; i < objectWidth * objectHeight; i++) {
-                gameMap.push(0)
-            }
-
-            let targetIndex = -1
-            for (let i = 0; i < images.length; i++) {
-                let x = event.offsetX
-                let y = event.offsetY
-                let image = images[i]
-                let ix = image.x
-                let iy = image.y
-                let iw = image.w
-                let ih = image.h
-                if ((x > ix) && (x < ix + iw) && (y > iy) && (y < iy + ih)) {
-                    targetIndex = i
-                    break
-                }
-            }
-
-            let count = 0
-            while (true) {
-                let i = ran()
-
-                if (pro(targetIndex, i)) {
-                    continue
-                }
-
-                if (gameMap[i] === 9) {
-                    continue
-                }
-
-                gameMap[i] = 9
-                count++
-
-                if (count === landmineNumber) {
-                    break
-                }
-            }
-
-            for (let i = 0; i < gameMap.length; i++) {
-                let count = 0
-
-                let cx = mod(i, objectWidth)
-                let cy = div(i, objectWidth)
-                if (cx - 1 >= 0 && cy - 1 >= 0) {
-                    if (gameMap[(cx - 1) + (cy - 1) * objectWidth] === 9) {
-                        count++
-                    }
-                }
-                if (cx >= 0 && cy - 1 >= 0) {
-                    if (gameMap[(cx) + (cy - 1) * objectWidth] === 9) {
-                        count++
-                    }
-                }
-                if (cx + 1 <= 8 && cy - 1 >= 0) {
-                    if (gameMap[(cx + 1) + (cy - 1) * objectWidth] === 9) {
-                        count++
-                    }
-                }
-                if (cx - 1 >= 0 && cy >= 0) {
-                    if (gameMap[(cx - 1) + (cy) * objectWidth] === 9) {
-                        count++
-                    }
-                }
-                if (cx + 1 <= 8 && cy >= 0) {
-                    if (gameMap[(cx + 1) + (cy) * objectWidth] === 9) {
-                        count++
-                    }
-                }
-                if (cx - 1 >= 0 && cy + 1 <= 8) {
-                    if (gameMap[(cx - 1) + (cy + 1) * objectWidth] === 9) {
-                        count++
-                    }
-                }
-                if (cx >= 0 && cy + 1 <= 8) {
-                    if (gameMap[(cx) + (cy + 1) * objectWidth] === 9) {
-                        count++
-                    }
-                }
-                if (cx + 1 <= 8 && cy + 1 <= 8) {
-                    if (gameMap[(cx + 1) + (cy + 1) * objectWidth] === 9) {
-                        count++
-                    }
-                }
-
-                if (gameMap[i] !== 9) {
-                    gameMap[i] = count
-                }
-            }
-
-            for (let i = 0; i < gameMap.length; i++) {
-                let image = images[i]
-                let point = gameMap[i]
-                image.setPoint(point)
-            }
+            __init(images, event)
 
             init = false
         }
